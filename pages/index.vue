@@ -23,8 +23,6 @@ function uploadFile(file) {
     item.value.description_image = file;
   }, 2000);
 }
-
-const value1 = ref(40);
 </script>
 <template>
   <div class="relative m-10 p-10 bg-gray-100 min-h-screen rounded-xl">
@@ -59,6 +57,14 @@ const value1 = ref(40);
         class="w-full"
         :maxLength="200"
       />
+      <div class="w-1/2">
+        <HSocialMediaSelector
+          rules="required|url"
+          name="social_media"
+          placeholder="https://twitter.com/..."
+        >
+        </HSocialMediaSelector>
+      </div>
       <HImageCropper
         name="log"
         v-model="base64File"
@@ -70,116 +76,117 @@ const value1 = ref(40);
         rules="required"
         :loading="uploadLoading"
       ></HImageCropper>
-      yyyyy
-      <PrimeProgressBar :value="value1" />
-      asdf
 
-      <HTable
-        :headers="headers"
-        :items="items"
-        v-model:sort="order"
-        v-model:checkedItems="checkedItems"
-        :loading="loading"
-        :hasCheckBox="false"
-        rowStyle="font-light"
-        rowHeadStyle="bg-gray-200"
-        supporterClass="overflow-auto pb-20 bg-white"
-        @click:row="
-          editMode = false;
-          clickRow;
-        "
-      >
-        <template v-slot:row="{ item, headers }">
-          <td
-            v-for="header in headers"
-            :key="header.value"
-            class="px-2 text-sm border-b py-2 text-secondary"
-          >
-            <HRow :item="item" :header="header">
-              <template #action="{ item }">
-                <div class="flex max-w-[14rem]" v-if="tabs.name == 'Invoice'">
-                  <button
-                    class="px-2 w-auto text-xs flex gap-x-1 ring-1 ring-primary/30 items-center py-1 self-start rounded-lg bg-primaryLite"
-                    @click="clickRow(item, 'invoice')"
-                  >
-                    <Icon
-                      name="basil:invoice-outline"
-                      class="text-primary disabled:cursor-not-allowed text-base"
-                      aria-hidden="true"
-                    />
-                    <span>Invoice</span>
-                  </button>
-                </div>
-                <HeadlessMenu
-                  v-else
-                  as="div"
-                  class="relative inline-block text-left"
-                >
-                  <div>
-                    <HeadlessMenuButton
-                      class="rounded-full hover:bg-black/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 p-1"
-                      @click.stop=""
+      <PrimeProgressBar :value="88"></PrimeProgressBar>
+
+      <ClientOnly>
+        <HTable
+          :headers="headers"
+          :items="items"
+          v-model:sort="order"
+          v-model:checkedItems="checkedItems"
+          :loading="loading"
+          :hasCheckBox="false"
+          rowStyle="font-light"
+          rowHeadStyle="bg-gray-200"
+          supporterClass="overflow-auto pb-20 bg-white"
+          @click:row="
+            editMode = false;
+            clickRow;
+          "
+        >
+          <template v-slot:row="{ item, headers }">
+            <td
+              v-for="header in headers"
+              :key="header.value"
+              class="px-2 text-sm border-b py-2 text-secondary"
+            >
+              <HRow :item="item" :header="header">
+                <template #action="{ item }">
+                  <div class="flex max-w-[14rem]" v-if="tabs.name == 'Invoice'">
+                    <button
+                      class="px-2 w-auto text-xs flex gap-x-1 ring-1 ring-primary/30 items-center py-1 self-start rounded-lg bg-primaryLite"
+                      @click="clickRow(item, 'invoice')"
                     >
                       <Icon
-                        name="pepicons-pencil:dots-y"
-                        class="text-secondary font-bold"
+                        name="basil:invoice-outline"
+                        class="text-primary disabled:cursor-not-allowed text-base"
                         aria-hidden="true"
-                        size="25"
                       />
-                    </HeadlessMenuButton>
+                      <span>Invoice</span>
+                    </button>
                   </div>
-                  <transition
-                    enter-active-class="transition duration-100 ease-out"
-                    enter-from-class="transform scale-95 opacity-0"
-                    enter-to-class="transform scale-100 opacity-100"
-                    leave-active-class="transition duration-75 ease-in"
-                    leave-from-class="transform scale-100 opacity-100"
-                    leave-to-class="transform scale-95 opacity-0"
+                  <HeadlessMenu
+                    v-else
+                    as="div"
+                    class="relative inline-block text-left"
                   >
-                    <HeadlessMenuItems
-                      class="z-20 absolute right-0 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    <div>
+                      <HeadlessMenuButton
+                        class="rounded-full hover:bg-black/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 p-1"
+                        @click.stop=""
+                      >
+                        <Icon
+                          name="pepicons-pencil:dots-y"
+                          class="text-secondary font-bold"
+                          aria-hidden="true"
+                          size="25"
+                        />
+                      </HeadlessMenuButton>
+                    </div>
+                    <transition
+                      enter-active-class="transition duration-100 ease-out"
+                      enter-from-class="transform scale-95 opacity-0"
+                      enter-to-class="transform scale-100 opacity-100"
+                      leave-active-class="transition duration-75 ease-in"
+                      leave-from-class="transform scale-100 opacity-100"
+                      leave-to-class="transform scale-95 opacity-0"
                     >
-                      <div class="px-1 py-1">
-                        <HeadlessMenuItem v-slot="{ active }" @click.stop="">
-                          <button
-                            class="px-1 w-full flex items-center py-2 self-start rounded-lg hover:bg-primaryLite"
-                            @click="
-                              editMode = false;
-                              clickRow(item, 'payment');
-                            "
-                          >
-                            <Icon
-                              name="ant-design:eye-outlined"
-                              class="text-primary disabled:cursor-not-allowed mr-2 text-2xl shrink-0"
-                              aria-hidden="true"
-                            />
-                            Review Payment
-                          </button>
-                        </HeadlessMenuItem>
-                        <HeadlessMenuItem v-slot="{ active }" @click.stop="">
-                          <button
-                            class="px-1 w-full flex items-center py-2 self-start rounded-lg hover:bg-primaryLite"
-                            @click="
-                              editMode = true;
-                              clickRow(item, 'payment');
-                            "
-                          >
-                            <Icon
-                              name="iconamoon:edit-duotone"
-                              class="text-primary disabled:cursor-not-allowed mr-2 text-2xl shrink-0"
-                            />
-                            Edit
-                          </button>
-                        </HeadlessMenuItem>
-                      </div>
-                    </HeadlessMenuItems>
-                  </transition>
-                </HeadlessMenu>
-              </template>
-            </HRow>
-          </td>
-        </template>
-      </HTable>
+                      <HeadlessMenuItems
+                        class="z-20 absolute right-0 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                      >
+                        <div class="px-1 py-1">
+                          <HeadlessMenuItem v-slot="{ active }" @click.stop="">
+                            <button
+                              class="px-1 w-full flex items-center py-2 self-start rounded-lg hover:bg-primaryLite"
+                              @click="
+                                editMode = false;
+                                clickRow(item, 'payment');
+                              "
+                            >
+                              <Icon
+                                name="ant-design:eye-outlined"
+                                class="text-primary disabled:cursor-not-allowed mr-2 text-2xl shrink-0"
+                                aria-hidden="true"
+                              />
+                              Review Payment
+                            </button>
+                          </HeadlessMenuItem>
+                          <HeadlessMenuItem v-slot="{ active }" @click.stop="">
+                            <button
+                              class="px-1 w-full flex items-center py-2 self-start rounded-lg hover:bg-primaryLite"
+                              @click="
+                                editMode = true;
+                                clickRow(item, 'payment');
+                              "
+                            >
+                              <Icon
+                                name="iconamoon:edit-duotone"
+                                class="text-primary disabled:cursor-not-allowed mr-2 text-2xl shrink-0"
+                              />
+                              Edit
+                            </button>
+                          </HeadlessMenuItem>
+                        </div>
+                      </HeadlessMenuItems>
+                    </transition>
+                  </HeadlessMenu>
+                </template>
+              </HRow>
+            </td>
+          </template>
+        </HTable>
+      </ClientOnly>
     </div>
   </div>
 </template>

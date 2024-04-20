@@ -32,10 +32,20 @@ export default defineNuxtPlugin((vueApp) => {
       return `${context.field} ${show}`;
     }
   });
+  // defineRule("url", (value, context) => {
+  //   return (
+  //     !value ||
+  //     /^((http|https):\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(
+  //       value
+  //     ) ||
+  //     "Not valid url"
+  //   );
+  // });
+
   defineRule("url", (value, context) => {
     return (
       !value ||
-      /^((http|https):\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(
+      /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/.test(
         value
       ) ||
       "Not valid url"
