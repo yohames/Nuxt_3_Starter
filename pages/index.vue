@@ -48,15 +48,24 @@ function uploadFile(file) {
           </h1>
         </template>
       </HTextField>
-      <HTextArea
-        :rows="7"
-        name="Description"
-        label="Description"
-        label-class="mb-2 font-medium text-lg text-secondary"
-        supporter-class="shadow-sm w-full"
-        class="w-full"
-        :maxLength="200"
-      />
+      <div class="flex">
+        <HTextArea
+          :rows="7"
+          name="Description"
+          label="Description"
+          label-class="mb-2 font-medium text-lg text-secondary"
+          supporter-class="shadow-sm w-full"
+          class="w-full"
+          :maxLength="200"
+        />
+        <!-- <HTextEditor
+          v-model="item.textDescription"
+          name="bot_post_description"
+          toolbar="full"
+          label=""
+          height="95vh"
+        /> -->
+      </div>
 
       <div class="flex gap-x-10 items-center">
         <HDatePicker
