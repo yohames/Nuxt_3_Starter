@@ -47,8 +47,7 @@ const {
 
 const selected = ref({});
 const set = (item) => {
-  console.log("show menu dropdown", item);
-  inputValue.value = item?.id;
+  // inputValue.value = item?.id;
   emit("update:modelValue", item);
   selected.value = item;
 };

@@ -57,27 +57,39 @@ function uploadFile(file) {
         class="w-full"
         :maxLength="200"
       />
-      <div class="w-1/2">
-        <HSocialMediaSelector
-          rules="required|url"
-          name="social_media"
-          placeholder="https://twitter.com/..."
-        >
-        </HSocialMediaSelector>
-      </div>
-      <HImageCropper
-        name="log"
-        v-model="base64File"
-        :uploaded="item.description_image"
-        image-class="w-auto"
-        @upload="uploadFile"
-        :crop-max-hight="10000"
-        :crop-max-width="10000"
-        rules="required"
-        :loading="uploadLoading"
-      ></HImageCropper>
 
-      <PrimeProgressBar :value="88"></PrimeProgressBar>
+      <div class="flex gap-x-10 items-center">
+        <HDatePicker
+          v-model="item.published_at"
+          name="Published At"
+          label="Published on"
+          labelClass="pb-2 text-sm font-medium text-secondary"
+          class="flex-1"
+        >
+        </HDatePicker>
+        <HEthiopianDatePicker
+          v-model="item.deadline"
+          name="Deadline"
+          rules="required"
+          class="flex-1"
+        >
+          <template v-slot:label>
+            <div class="pb-2 text-lg font-body font-medium dark:text-white">
+              Deadline
+              <span class="text-red-500">*</span>
+            </div>
+          </template>
+        </HEthiopianDatePicker>
+
+        <div class="flex-1">
+          <HSocialMediaSelector
+            rules="required|url"
+            name="social_media"
+            placeholder="https://..."
+          >
+          </HSocialMediaSelector>
+        </div>
+      </div>
 
       <ClientOnly>
         <HTable
@@ -187,6 +199,24 @@ function uploadFile(file) {
           </template>
         </HTable>
       </ClientOnly>
+      <div class="flex">
+        <div class="flex-1">
+          <HImageCropper
+            name="log"
+            v-model="base64File"
+            :uploaded="item.description_image"
+            image-class="w-auto"
+            @upload="uploadFile"
+            :crop-max-hight="10000"
+            :crop-max-width="10000"
+            rules="required"
+            :loading="uploadLoading"
+          ></HImageCropper>
+        </div>
+        <div class="flex-1">
+          <DashboardChart />
+        </div>
+      </div>
     </div>
   </div>
 </template>

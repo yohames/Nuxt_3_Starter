@@ -31,6 +31,8 @@ const emit = defineEmits(["update:modelValue"]);
 const { handleSubmit } = useForm({});
 
 const items = ref({});
+provide("selectable", items);
+
 const socialMediaItems = ref([
   {
     id: 1,
@@ -49,22 +51,44 @@ const socialMediaItems = ref([
   },
 ]);
 
-const socialMediaLinks = ref([]);
+let socialMediaLinks = ref([]);
 const socialPicker = ref(null);
 const submit = handleSubmit(async (values, { resetForm }) => {
-  console.log("what is going on");
-  socialPicker.value.set();
-  socialMediaLinks.value.push({
-    social_media: items.value.social_media,
-    social_media_link: items.value.social_media_link,
-  });
+  // socialPicker.value.set();
+  socialMediaLinks.value.push({ ...items.value });
   resetForm();
-  console.log("show submittions", socialMediaLinks.value);
 });
+function removeSocial(index) {
+  socialMediaLinks.value.splice(index, 1);
+}
 </script>
 <template>
-  <div class="flex items-center">
-    <form @submit.prevent="submit" class="flex-1">
+  <div
+    class="relative flex flex-col gap-y-4 rounded-lg shadow-md p-2 pt-5 ring-2 ring-gray-200"
+  >
+    <span
+      class="absolute -top-4 text-base px-3 bg-gray-200 rounded-lg text-gray-600"
+      >Social Media</span
+    >
+    <ul class="flex gap-x-5 gap-y-3 flex-wrap">
+      <li
+        class="flex gap-x-2 px-2 py-0.5 text-base items-center ring-1 ring-gray-300 shadow-md hover:shadow-lg rounded-md"
+        v-for="(i, index) in socialMediaLinks"
+        :title="i?.social_media_link"
+      >
+        <img
+          :src="i?.social?.icon || '/images/select_icon.png'"
+          class="w-4 h-4"
+        />
+        <small>{{ i?.social?.name }}</small>
+        <Icon
+          @click="removeSocial(index)"
+          name="iconamoon:close-light"
+          class="hover:scale-125 duration-150 cursor-pointer hover:text-red-500"
+        />
+      </li>
+    </ul>
+    <div class="flex-1">
       <HTextField
         :rules="rules"
         name="social_media_link"
@@ -79,24 +103,21 @@ const submit = handleSubmit(async (values, { resetForm }) => {
         <template #leading>
           <div class="flex items-center">
             <HMenuDropdown
-              v-model="items.social_media"
+              v-model="items.social"
               rules="required"
               name="social-media"
               placeholder="Select social media"
-              popup-class="absolute left-0 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
+              popup-class="z-[100] absolute left-0 mt-2 w-28 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
               :items="socialMediaItems"
               ref="socialPicker"
             >
               <template #button="{ selected }">
                 <button
                   type="button"
-                  class=" p-3 rounded-l-md flex gap-x-1 items-center text-sm justify-center bg-gray-300 py-2.5 hover:bg-gray-50 duration-150 focus:outline-none"
+                  class="p-3 rounded-l-md flex gap-x-1 items-center text-sm justify-center bg-gray-300 py-2.5 hover:bg-gray-50 duration-150 focus:outline-none"
                 >
                   <img
-                    :src="
-                      selected?.icon ||
-                      'https://cdn-icons-png.flaticon.com/512/5678/5678505.png'
-                    "
+                    :src="selected?.icon || '/images/select_icon.png'"
                     class="w-6 h-6"
                   />
                 </button>
@@ -121,6 +142,6 @@ const submit = handleSubmit(async (values, { resetForm }) => {
           </button>
         </template>
       </HTextField>
-    </form>
+    </div>
   </div>
 </template>

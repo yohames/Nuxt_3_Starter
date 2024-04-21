@@ -1,0 +1,7 @@
+mutation ($file: String!, $folder: String!) {
+  upload_files(file: $file, folder: $folder) {
+    extension {
+      secure_url
+    }
+  }
+}
