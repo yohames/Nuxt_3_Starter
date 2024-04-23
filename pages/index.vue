@@ -31,7 +31,7 @@ function uploadFile(file) {
     />
 
     <div class="text-2xl text-green-500 flex flex-col gap-y-10">
-      <h1 class="text-4xl text-center font-bold">Nuxt 3 Starter</h1>
+      <!-- <h1 class="text-4xl text-center font-bold">Nuxt 3 Starter</h1> -->
       <HTextField
         rules="required|email"
         name="email"
@@ -48,6 +48,7 @@ function uploadFile(file) {
           </h1>
         </template>
       </HTextField>
+      <SelectorUsers />
       <div class="flex">
         <HTextArea
           :rows="7"
